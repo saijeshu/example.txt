@@ -73,7 +73,7 @@ npm install &>> $LOGFILE
 
 VALIDATE $? "installing dependencies" 
 
-cp /home/centos/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /Users/apple/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? coping catlogue service"
 
@@ -89,7 +89,7 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? " starting catalogue" 
 
-cp /home/centos/exampl.txt/catalogue/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /Users/apple/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "coping mongodb repo "
 
