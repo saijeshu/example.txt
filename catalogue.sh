@@ -34,7 +34,7 @@ dnf module disable nodejs -y &>> $LOGFILE
 
 VALIDATE $? "Disabling current nodejs" 
 
-dnf module enable nodejs:18 &>> $LOGFILE
+dnf module enable nodejs:18 -y &>> $LOGFILE
 
 VALIDATE $? "Enabling nodejs:18" 
 
@@ -44,9 +44,18 @@ VALIDATE $? "Installing nodejs"
 
 useradd roboshop &>> $LOGFILE
 
+id roboshop
+if  [ $? -ne 0 ]
+then
+   useradd roboshop
+   VALIDATE$? "roboshop user creation"
+else
+    echo -e " already user exit $Y SKIPPING $N"
+fi   
+
 VALIDATE $? "creating roboshopuser" 
 
-mkdir /app 
+mkdir -p /app 
 
 VALIDATE $? "creating app directory" 
 
@@ -56,15 +65,17 @@ VALIDATE $? "downloading catalog application"
 
 cd /app 
 
-unzip /tmp/catalogue.zip
+unzip -o /tmp/catalogue.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping the catalogue" 
 
-npm install 
+npm install &>> $LOGFILE
 
 VALIDATE $? "installing dependencies" 
 
 cp /home/centos/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+
+VALIDATE $? coping catlogue service"
 
 systemctl daemon-reload &>> $LOGFILE
 
