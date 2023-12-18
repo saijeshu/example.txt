@@ -72,7 +72,7 @@ VALIDATE $? "unzipping the catalogue"
 
 npm install &>> $LOGFILE
 
-VALIDATE $? "installing dependencies" 
+VALIDATE $? "installing catalogue dependencies" 
 
 cp /Users/apple/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
