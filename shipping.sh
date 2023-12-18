@@ -5,7 +5,6 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGDB_HOST=mongodb.daws76s.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
@@ -41,41 +40,41 @@ else
     echo -e "roboshop user already exist $Y SKIPPING $N"
 fi
 
-mkdir /app &>> $LOGFILE
+mkdir -p /app
 
-VALIDATE $? "creating directory"
+VALIDATE $? "creating app directory"
 
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
 
-VALIDATE $? "downloading shipping"
+VALIDATE $? "Downloading shipping"
 
-cd /app &>> $LOGFILE
+cd /app
 
-VALIDATE $? "changing directory"
+VALIDATE $? "moving to app directory"
 
-unzip /tmp/shipping.zip &>> $LOGFILE
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 
-VALIDATE $? "unzipping directory"
+VALIDATE $? "unzipping shipping"
 
 mvn clean package &>> $LOGFILE
 
-VALIDATE $? "cleanong mvn package"
+VALIDATE $? "Installing dependencies"
 
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
-VALIDATE $? " shipping jar file"
+VALIDATE $? "renaming jar file"
 
-cp /home/centos/example.txt/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
-VALIDATE $? "coping shipping service"
+VALIDATE $? "copying shipping service"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "reloading.."
+VALIDATE $? "deamon reload"
 
-systemctl enable shipping &>> $LOGFILE 
+systemctl enable shipping  &>> $LOGFILE
 
-VALIDATE $? "enabling shipping"
+VALIDATE $? "enable shipping"
 
 systemctl start shipping &>> $LOGFILE
 
@@ -83,6 +82,12 @@ VALIDATE $? "start shipping"
 
 dnf install mysql -y &>> $LOGFILE
 
-mysql -h mysql.sandhyadevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+VALIDATE $? "install MySQL client"
+
+mysql -h mysql.daws76s.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+
+VALIDATE $? "loading shipping data"
 
 systemctl restart shipping &>> $LOGFILE
+
+VALIDATE $? "restart shipping"
