@@ -74,7 +74,7 @@ npm install &>> $LOGFILE
 
 VALIDATE $? "installing catalogue dependencies" 
 
-cp /home/centos/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? coping catlogue service"
 
