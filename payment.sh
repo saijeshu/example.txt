@@ -59,3 +59,17 @@ pip3.6 install -r requirements.txt &>> $LOGFILE
 VALIDATE $? "instaling pip"
 
 cp /home/centos/example.txt/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
+
+VALIDATE $? "Copying payment service"
+
+systemctl daemon-reload &>> $LOGFILE
+
+VALIDATE $? "daemon reaload"
+
+systemctl enable payment  &>> $LOGFILE
+
+VALIDATE $? "Enable payment"
+
+systemctl start payment &>> $LOGFILE
+
+VALIDATE $? "Start payment"
