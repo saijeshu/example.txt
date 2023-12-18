@@ -87,7 +87,7 @@ systemctl start user &>> $LOGFILE
 
 VALIDATE $? "starting user"
 
-cp /home/centos/example.txt/mongo.repo   /etc/yum.repos.d/mongo.repo $>> $LOGFILE
+cp /home/centos/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo
 
 VALIDATE $? "coping mongo repo"
 
