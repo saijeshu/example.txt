@@ -81,10 +81,8 @@ systemctl start shipping &>> $LOGFILE
 
 VALIDATE $? "start shipping"
 
-
-
 dnf install mysql -y &>> $LOGFILE
 
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+mysql -h mysql.sandhyadevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
 
 systemctl restart shipping &>> $LOGFILE
