@@ -85,15 +85,3 @@ VALIDATE $? "Enable cart"
 systemctl start cart &>> $LOGFILE
 
 VALIDATE $? "Starting cart"
-
-cp /home/centos/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo
-
-VALIDATE $? "copying mongodb repo"
-
-dnf install mongodb-org-shell -y &>> $LOGFILE
-
-VALIDATE $? "Installing MongoDB client"
-
-mongo --host $MONGDB_HOST </app/schema/cart.js &>> $LOGFILE
-
-VALIDATE $? "Loading cart data into MongoDB"
