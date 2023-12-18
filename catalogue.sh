@@ -90,7 +90,7 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? " starting catalogue" 
 
-cp /home/centos/example.txt/  /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/centos/example.txt  /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "coping mongodb repo "
 
