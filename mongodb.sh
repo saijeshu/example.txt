@@ -12,7 +12,6 @@ LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
 echo "script strated executing at $TIMESTAMP" &>> $LOGFILE
 
-
 VALIDATE(){
     if [ $? -ne 0 ]
     then

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ID=$(id -u)
+
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -10,90 +11,93 @@ MONGDB_HOST=mongodb.sandhyadevops.online
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
+echo "script strated executing at $TIMESTAMP" &>> $LOGFILE
+
 
 VALIDATE(){
-    if [ $1 -ne 0 ]
+    if [ $? -ne 0 ]
     then
-        echo -e "$2 ... $R FAILED $N"
-        exit 1
+       echo -e "$2...$R FAILED $N"
+       exit 1
     else
-        echo -e "$2 ... $G SUCCESS $N"
-    fi
+       echo -e "$2...$G SUCCESS $N" 
+    fi   
 }
 
 if [ $ID -ne 0 ]
 then
-    echo -e "$R ERROR:: Please run this script with root access $N"
-    exit 1 # you can give other than 0
+   echo -e "$R ERROE:: Please run script with root access $N"
 else
-    echo "You are root user"
-fi # fi means reverse of if, indicating condition end
-
+  echo "you have root access"
+fi
+ 
 dnf module disable nodejs -y &>> $LOGFILE
 
-VALIDATE $? "Disabling current NodeJS"
+VALIDATE $? "Disabling current nodejs" 
 
-dnf module enable nodejs:18 -y  &>> $LOGFILE
+dnf module enable nodejs:18 -y &>> $LOGFILE
 
-VALIDATE $? "Enabling NodeJS:18"
+VALIDATE $? "Enabling nodejs:18" 
 
-dnf install nodejs -y  &>> $LOGFILE
+dnf install nodejs -y &>> $LOGFILE
 
-VALIDATE $? "Installing NodeJS:18"
+VALIDATE $? "Installing nodejs" 
 
-id roboshop #if roboshop user does not exist, then it is failure
-if [ $? -ne 0 ]
+useradd roboshop &>> $LOGFILE
+
+id roboshop
+if  [ $? -ne 0 ]
 then
-    useradd roboshop
-    VALIDATE $? "roboshop user creation"
+   useradd roboshop
+   VALIDATE$? "roboshop user creation"
 else
-    echo -e "roboshop user already exist $Y SKIPPING $N"
-fi
+    echo -e " already user exit $Y SKIPPING $N"
+fi   
 
-mkdir -p /app
+VALIDATE $? "creating roboshopuser" 
 
-VALIDATE $? "creating app directory"
+mkdir -p /app 
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip  &>> $LOGFILE
+VALIDATE $? "creating app directory" 
 
-VALIDATE $? "Downloading catalogue application"
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
+
+VALIDATE $? "downloading catalog application" 
 
 cd /app 
 
-unzip -o /tmp/catalogue.zip  &>> $LOGFILE
+unzip -o /tmp/catalogue.zip &>> $LOGFILE
 
-VALIDATE $? "unzipping catalogue"
+VALIDATE $? "unzipping the catalogue" 
 
-npm install  &>> $LOGFILE
+npm install &>> $LOGFILE
 
-VALIDATE $? "Installing dependencies"
+VALIDATE $? "installing catalogue dependencies" 
 
-# use absolute, because catalogue.service exists there
 cp /home/centos/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
-VALIDATE $? "Copying catalogue service file"
+VALIDATE $? coping catlogue service"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "catalogue daemon reload"
+VALIDATE $? "catalogue daemon-reload"
 
 systemctl enable catalogue &>> $LOGFILE
 
-VALIDATE $? "Enable catalogue"
+VALIDATE $? " enabling catalogue" 
 
 systemctl start catalogue &>> $LOGFILE
 
-VALIDATE $? "Starting catalogue"
+VALIDATE $? " starting catalogue" 
 
-cp /home/centos/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo
+cp /home/centos/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
-VALIDATE $? "copying mongodb repo"
+VALIDATE $? "coping mongodb repo "
 
 dnf install mongodb-org-shell -y &>> $LOGFILE
 
-VALIDATE $? "Installing MongoDB client"
+VALIDATE $? "Installing Mongodb client"
 
 mongo --host $MONGDB_HOST </app/schema/catalogue.js &>> $LOGFILE
 
-VALIDATE $? "Loading catalouge data into MongoDB"
+VALIDATE $? "loading catalogue data into mongodb"
