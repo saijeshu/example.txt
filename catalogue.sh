@@ -74,7 +74,7 @@ npm install &>> $LOGFILE
 
 VALIDATE $? "installing catalogue dependencies" 
 
-cp /Users/apple/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/centos/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? coping catlogue service"
 
@@ -90,7 +90,7 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? " starting catalogue" 
 
-cp /Users/apple/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/centos/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "coping mongodb repo "
 
