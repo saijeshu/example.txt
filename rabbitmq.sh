@@ -30,12 +30,24 @@ fi
 
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $LOGFILE
 
+VALIDATE $? "downloading from java provider"
+
 curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> $LOGFILE
+
+VALIDATE $? "downloading rabbitmq"
 
 dnf install rabbitmq-server -y &>> $LOGFILE
 
+VALIDATE $? "installing rabbitmq"
+
 systemctl enable rabbitmq-server &>> $LOGFILE
+
+VALIDATE $? "enabling rabbitmq"
 
 rabbitmqctl add_user roboshop roboshop123 &>> $LOGFILE
 
+VALIDATE $? " adding user rabbitmq"
+
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $LOGFILE
+
+VALIDATE $? "set rabbitmq"
