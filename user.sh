@@ -91,13 +91,11 @@ cp /home/centos/example.txt/mongo.repo /etc/systemd/system/user.service &>> $LOG
 
 VALIDATE $? "coping mongo repo"
 
-dnf install mongodb-org-shell -y &>> $LOGFILE
+dnf install mongodb-org-shell -y
 
-VALIDATE $? "instaling mongodb client"
+VALIDATE $? "installing mongodb"
 
-mongo --host MONGDB_HOST </app/schema/user.js &>> $LOGFILE
-
-VALIDATE $? "uploading scheme to mongodb"
+mongo --host MONGDB_HOST </app/schema/user.js
 
 
 
