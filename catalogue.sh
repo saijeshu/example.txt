@@ -6,7 +6,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGDB_HOST=34.207.254.28
+MONGDB_HOST=172.31.30.13
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
@@ -74,7 +74,7 @@ npm install &>> $LOGFILE
 
 VALIDATE $? "installing dependencies" 
 
-cp /Users/apple/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /Users/apple/example.txt/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? coping catlogue service"
 
@@ -90,7 +90,7 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? " starting catalogue" 
 
-cp /Users/apple/roboshop-shell1/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /Users/apple/example.txt/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "coping mongodb repo "
 
